@@ -25,8 +25,8 @@ $LogDir  = "C:\Temp"
 $LogFile = Join-Path $LogDir "Instalador-Padrao.log"
 
 # ─── Cores globais ───────────────────────────────────────────
-$corFundo     = "DarkBlue"
-$corTexto     = "Gray"
+$corFundo     = "Black"
+$corTexto     = "Blue"
 $corDestaque  = "Cyan"
 $corNumero    = "White"
 $corOK        = "Green"
@@ -38,6 +38,40 @@ $corTitulo    = "DarkCyan"
 $host.UI.RawUI.BackgroundColor = $corFundo
 $host.UI.RawUI.ForegroundColor = $corTexto
 Clear-Host
+
+# ─── Autenticação ────────────────────────────────────────────
+$senhaMestra = "suroh"
+$tentativas  = 0
+$maxTentativas = 3
+
+Write-Host ""
+Write-Host "  ╔══════════════════════════════════════════╗" -ForegroundColor DarkBlue
+Write-Host "  ║     ACESSO RESTRITO — HTi Soluções TI    ║" -ForegroundColor Blue
+Write-Host "  ╚══════════════════════════════════════════╝" -ForegroundColor DarkBlue
+Write-Host ""
+
+do {
+    $tentativas++
+    $senhaSegura = Read-Host "  Senha de acesso" -AsSecureString
+    $senhaTexto  = [Runtime.InteropServices.Marshal]::PtrToStringAuto(
+                       [Runtime.InteropServices.Marshal]::SecureStringToBSTR($senhaSegura))
+
+    if ($senhaTexto -eq $senhaMestra) {
+        Write-Host ""
+        Write-Host "  Acesso autorizado." -ForegroundColor Green
+        Write-Host ""
+        Start-Sleep -Seconds 1
+        break
+    }
+    else {
+        Write-Host "  Senha incorreta. Tentativa $tentativas de $maxTentativas." -ForegroundColor Red
+        if ($tentativas -ge $maxTentativas) {
+            Write-Host "  Número máximo de tentativas atingido. Encerrando." -ForegroundColor Red
+            Start-Sleep -Seconds 2
+            exit 1
+        }
+    }
+} while ($tentativas -lt $maxTentativas)
 
 # ─── Funções auxiliares ──────────────────────────────────────
 
@@ -271,11 +305,21 @@ function Restart-PrintSpooler {
 function New-LocalUserAccount {
     Write-Header "CRIAR NOVO USUÁRIO LOCAL"
 
-    Write-Host "  Informe apenas o nome do usuário. A senha será definida como em branco," -ForegroundColor $corTexto
-    Write-Host "  e o usuário será solicitado a criar uma senha no primeiro acesso." -ForegroundColor $corTexto
+    Write-Host "  Informe o nome do usuário ou pressione 0 para cancelar." -ForegroundColor $corTexto
+    Write-Host "  A senha será definida como em branco e criada no primeiro acesso." -ForegroundColor $corTexto
+    Write-Host ""
+    Write-Host "  " -NoNewline; Write-Host "0" -ForegroundColor $corNumero -NoNewline
+    Write-Host " - Cancelar e voltar ao menu principal" -ForegroundColor $corAviso
     Write-Host ""
 
-    $nomeUsuario = Read-Host "  Nome do usuário (sem espaços)"
+    $nomeUsuario = Read-Host "  Nome do usuário (sem espaços) ou 0 para cancelar"
+
+    if ($nomeUsuario -eq "0") {
+        Write-Host ""
+        Write-Host "  Criação de usuário cancelada." -ForegroundColor $corAviso
+        Write-Log "Criação de usuário cancelada pelo operador."
+        return
+    }
 
     if ([string]::IsNullOrWhiteSpace($nomeUsuario)) {
         Write-Host "  [ERRO] Nome de usuário não pode ser vazio." -ForegroundColor $corErro
@@ -327,11 +371,64 @@ function New-LocalUserAccount {
 # ─── Banner / Cabeçalho ──────────────────────────────────────
 
 function Show-Banner {
+    Clear-Host
+    $host.UI.RawUI.BackgroundColor = "Black"
+    $host.UI.RawUI.ForegroundColor = "Gray"
+
     Write-Host ""
-    Write-Host "  ╔══════════════════════════════════════════════╗" -ForegroundColor $corTitulo
-    Write-Host "  ║   INSTALADOR PADRÃO DE SOFTWARES - WINDOWS   ║" -ForegroundColor $corDestaque
-    Write-Host "  ║      Criado por: José Carlos (Analista TI)    ║" -ForegroundColor $corTexto
-    Write-Host "  ╚══════════════════════════════════════════════╝" -ForegroundColor $corTitulo
+
+    # ── HTi em letras grandes ASCII ──────────────────────────
+    #   H = DarkGray | t = DarkGray | i = Yellow (laranja)
+
+    Write-Host "   " -NoNewline
+    Write-Host "██   ██" -ForegroundColor DarkGray -NoNewline
+    Write-Host "   " -NoNewline
+    Write-Host "██████" -ForegroundColor DarkGray -NoNewline
+    Write-Host "   " -NoNewline
+    Write-Host " ██ " -ForegroundColor Yellow
+
+    Write-Host "   " -NoNewline
+    Write-Host "██   ██" -ForegroundColor DarkGray -NoNewline
+    Write-Host "   " -NoNewline
+    Write-Host "  ██  " -ForegroundColor DarkGray -NoNewline
+    Write-Host "   " -NoNewline
+    Write-Host "    " -ForegroundColor Yellow
+
+    Write-Host "   " -NoNewline
+    Write-Host "███████" -ForegroundColor DarkGray -NoNewline
+    Write-Host "   " -NoNewline
+    Write-Host "  ██  " -ForegroundColor DarkGray -NoNewline
+    Write-Host "   " -NoNewline
+    Write-Host " ██ " -ForegroundColor Yellow
+
+    Write-Host "   " -NoNewline
+    Write-Host "██   ██" -ForegroundColor DarkGray -NoNewline
+    Write-Host "   " -NoNewline
+    Write-Host "  ██  " -ForegroundColor DarkGray -NoNewline
+    Write-Host "   " -NoNewline
+    Write-Host " ██ " -ForegroundColor Yellow
+
+    Write-Host "   " -NoNewline
+    Write-Host "██   ██" -ForegroundColor DarkGray -NoNewline
+    Write-Host "   " -NoNewline
+    Write-Host "██████" -ForegroundColor DarkGray -NoNewline
+    Write-Host "   " -NoNewline
+    Write-Host " ██ " -ForegroundColor Yellow
+
+    Write-Host ""
+    Write-Host "          " -NoNewline
+    Write-Host "Solucoes em TI" -ForegroundColor Blue
+    Write-Host ""
+
+    # ── Título principal ─────────────────────────────────────
+    Write-Host "  ╔════════════════════════════════════════════════╗" -ForegroundColor DarkBlue
+    Write-Host "  ║" -ForegroundColor DarkBlue -NoNewline
+    Write-Host "   INSTALADOR PADRÃO DE SOFTWARES - WINDOWS    " -ForegroundColor Blue -NoNewline
+    Write-Host "  ║" -ForegroundColor DarkBlue
+    Write-Host "  ║" -ForegroundColor DarkBlue -NoNewline
+    Write-Host "       Criado por: José Carlos (Analista TI)    " -ForegroundColor Cyan -NoNewline
+    Write-Host "  ║" -ForegroundColor DarkBlue
+    Write-Host "  ╚════════════════════════════════════════════════╝" -ForegroundColor DarkBlue
     Write-Host ""
 }
 
@@ -415,11 +512,26 @@ try {
             "9" { New-LocalUserAccount; Pause-Script }
             "0" {
                 Write-Host ""
-                Write-Host "  Encerrando o script. Até mais!" -ForegroundColor $corAviso
+                Write-Host "  Encerrando e limpando histórico..." -ForegroundColor $corAviso
                 Write-Log "Script encerrado pelo usuário."
-                # Restaura cores padrão do terminal
+
+                # Limpa o histórico da sessão PowerShell
+                try {
+                    [Microsoft.PowerShell.PSConsoleReadLine]::ClearHistory()
+                } catch {}
+                try {
+                    Clear-History -ErrorAction SilentlyContinue
+                } catch {}
+
+                # Apaga o arquivo de histórico permanente do PSReadLine
+                $histFile = (Get-PSReadLineOption).HistorySavePath
+                if ($histFile -and (Test-Path $histFile)) {
+                    Clear-Content -Path $histFile -ErrorAction SilentlyContinue
+                }
+
+                # Restaura cores e limpa tela
                 $host.UI.RawUI.BackgroundColor = "Black"
-                $host.UI.RawUI.ForegroundColor = "White"
+                $host.UI.RawUI.ForegroundColor = "Gray"
                 Clear-Host
             }
             default {
