@@ -122,61 +122,26 @@ function Install-App {
 
 # ─── Ativação Office / Windows ──────────────────────────────
 
-function Get-OfficeOsppPath {
-    $paths = @(
-        "C:\Program Files\Microsoft Office\Office16\OSPP.VBS",
-        "C:\Program Files (x86)\Microsoft Office\Office16\OSPP.VBS",
-        "C:\Program Files\Microsoft Office\root\Office16\OSPP.VBS",
-        "C:\Program Files (x86)\Microsoft Office\root\Office16\OSPP.VBS"
-    )
-    foreach ($path in $paths) {
-        if (Test-Path $path) { return $path }
-    }
-    return $null
-}
-
 function Show-ActivationTools {
-    Write-Header "ATIVAÇÃO OFICIAL - WINDOWS / OFFICE"
+    Write-Header "ATIVAÇÃO WINDOWS / OFFICE — Microsoft Activation Scripts"
+
+    Write-Host "  Iniciando Microsoft Activation Scripts (MAS)..." -ForegroundColor $corTexto
+    Write-Host "  Fonte: https://get.activated.win" -ForegroundColor DarkGray
+    Write-Host ""
 
     try {
-        Write-Host "  Abrindo configurações de ativação do Windows..." -ForegroundColor $corTexto
-        Start-Process "ms-settings:activation"
-        Write-Log "Abertas configurações de ativação do Windows."
+        Write-Log "Iniciando Microsoft Activation Scripts via get.activated.win"
 
-        Write-Host "  Abrindo página de conta do Microsoft 365..." -ForegroundColor $corTexto
-        Start-Process "https://portal.office.com/account/"
-        Write-Log "Aberta página de conta/licenciamento do Microsoft 365."
+        # Executa diretamente na mesma janela, sem abrir nova janela
+        Invoke-Expression (Invoke-RestMethod -Uri "https://get.activated.win")
 
-        Write-Host ""
-        Write-Host "  Status do Windows:" -ForegroundColor $corAviso
-        try {
-            cscript.exe //Nologo "$env:SystemRoot\System32\slmgr.vbs" /xpr
-            Write-Log "Consulta de status do Windows executada via slmgr /xpr."
-        }
-        catch {
-            Write-Host "  Não foi possível consultar o status do Windows via slmgr." -ForegroundColor $corErro
-            Write-Log "Falha ao consultar status do Windows via slmgr."
-        }
-
-        Write-Host ""
-        $ospp = Get-OfficeOsppPath
-        if ($ospp) {
-            Write-Host "  Status do Office:" -ForegroundColor $corAviso
-            cscript.exe //Nologo $ospp /dstatus
-            Write-Log "Consulta de status do Office executada via OSPP.VBS."
-        }
-        else {
-            Write-Host "  OSPP.VBS não encontrado. Office pode não estar instalado via pacote compatível." -ForegroundColor $corAviso
-            Write-Log "OSPP.VBS não encontrado."
-        }
-
-        Write-Host ""
-        Write-Host "  Use a conta licenciada da organização para concluir a ativação." -ForegroundColor $corOK
+        Write-Log "[OK] MAS concluído."
     }
     catch {
         $erro = $_.Exception.Message
-        Write-Host ("  [ERRO] Falha ao abrir ferramentas de ativação: {0}" -f $erro) -ForegroundColor $corErro
-        Write-Log ("[ERRO] Falha ao abrir ferramentas de ativação: {0}" -f $erro)
+        Write-Host ("  [ERRO] Falha ao executar o ativador: {0}" -f $erro) -ForegroundColor $corErro
+        Write-Host "  Tente executar manualmente: irm https://get.activated.win | iex" -ForegroundColor $corAviso
+        Write-Log ("[ERRO] Falha ao executar MAS: {0}" -f $erro)
     }
 }
 
