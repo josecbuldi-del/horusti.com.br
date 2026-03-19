@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instalar-Padrao — Instalador PowerShell</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0f14;
+      --surface: #13161e;
+      --surface2: #1a1e28;
+      --border: #252a38;
+      --accent: #00e5a0;
+      --accent2: #0099ff;
+      --text: #e8ecf5;
+      --muted: #6b7594;
+      --code-bg: #0a0c11;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Glow blob */
+    body::after {
+      content: '';
+      position: fixed;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 500px;
+      background: radial-gradient(ellipse, rgba(0,229,160,0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    header {
+      padding: 56px 0 48px;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,229,160,0.08);
+      border: 1px solid rgba(0,229,160,0.25);
+      color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 28px;
+      animation: fadeDown 0.6s ease both;
+    }
+
+    .badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+      animation: pulse 2s ease infinite;
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 6vw, 3.8rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      animation: fadeDown 0.6s 0.1s ease both;
+    }
+
+    h1 span {
+      color: var(--accent);
+    }
+
+    .subtitle {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      font-weight: 400;
+      line-height: 1.6;
+      animation: fadeDown 0.6s 0.2s ease both;
+    }
+
+    /* Install card */
+    .install-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin: 40px 0;
+      animation: fadeUp 0.7s 0.3s ease both;
+    }
+
+    .install-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .dot:nth-child(1) { background: #ff5f57; }
+    .dot:nth-child(2) { background: #febc2e; }
+    .dot:nth-child(3) { background: #28c840; }
+
+    .terminal-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    .install-body {
+      padding: 24px 20px;
+      background: var(--code-bg);
+      position: relative;
+    }
+
+    .install-body pre {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--text);
+      line-height: 1.8;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .install-body pre .prompt {
+      color: var(--accent);
+      user-select: none;
+    }
+
+    .install-body pre .cmd {
+      color: #79b8ff;
+    }
+
+    .install-body pre .url {
+      color: var(--accent);
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.05em;
+    }
+
+    .copy-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .copy-btn.copied {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Download button */
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 32px 0;
+      animation: fadeUp 0.7s 0.4s ease both;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--accent);
+      color: #060a0f;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 14px 28px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.2s;
+      letter-spacing: 0.01em;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(0,229,160,0.3);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 14px 28px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent2);
+      color: var(--accent2);
+      transform: translateY(-2px);
+    }
+
+    /* Steps */
+    .steps-section {
+      margin: 48px 0;
+      animation: fadeUp 0.7s 0.5s ease both;
+    }
+
+    .section-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .step {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .step:last-child { border-bottom: none; }
+
+    .step-num {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(0,229,160,0.1);
+      border: 1px solid rgba(0,229,160,0.25);
+      color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .step-content h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .step-content p {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .step-content code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    /* Info boxes */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin: 48px 0;
+      animation: fadeUp 0.7s 0.55s ease both;
+    }
+
+    .info-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .info-box-icon {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .info-box h4 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .info-box p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 40px 0 56px;
+      color: var(--muted);
+      font-size: 0.8rem;
+      border-top: 1px solid var(--border);
+      animation: fadeUp 0.7s 0.6s ease both;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    footer a:hover { text-decoration: underline; }
+
+    /* Animations */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    @media (max-width: 480px) {
+      .btn-group { flex-direction: column; align-items: stretch; }
+      .btn-primary, .btn-secondary { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <header>
+      <div class="badge">PowerShell · Windows</div>
+      <h1>Instalar<span>-Padrao</span></h1>
+      <p class="subtitle">Instalador padrão para Windows via PowerShell.<br>Execute com um único comando, sem complicações.</p>
+    </header>
+
+    <!-- Comando de instalação rápida -->
+    <div class="install-card">
+      <div class="install-card-header">
+        <div class="dots">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+        <span class="terminal-label">PowerShell — Instalação rápida</span>
+        <span></span>
+      </div>
+      <div class="install-body">
+        <pre><span class="prompt">PS&gt; </span><span class="cmd">irm</span> <span class="url">https://raw.githubusercontent.com/SEU-USER/SEU-REPO/main/Instalar-Padrao.ps1</span> <span class="cmd">| iex</span></pre>
+        <button class="copy-btn" onclick="copiarComando(this)">copiar</button>
+      </div>
+    </div>
+
+    <!-- Botões de download -->
+    <div class="btn-group">
+      <a href="Instalar-Padrao.ps1" download class="btn-primary">
+        ↓ Baixar Instalar-Padrao.ps1
+      </a>
+      <a href="https://github.com/SEU-USER/SEU-REPO" target="_blank" class="btn-secondary">
+        ↗ Ver no GitHub
+      </a>
+    </div>
+
+    <!-- Passo a passo -->
+    <div class="steps-section">
+      <div class="section-title">Como usar</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-content">
+            <h3>Abra o PowerShell como Administrador</h3>
+            <p>Clique com o botão direito no menu Iniciar e escolha <code>Windows PowerShell (Admin)</code> ou <code>Terminal (Admin)</code>.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-content">
+            <h3>Cole e execute o comando</h3>
+            <p>Copie o comando acima, cole no terminal e pressione <code>Enter</code>. O script será baixado e executado automaticamente.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-content">
+            <h3>Siga as instruções na tela</h3>
+            <p>O instalador irá guiar você pelo processo. Confirme as permissões quando solicitado.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info boxes -->
+    <div class="info-grid">
+      <div class="info-box">
+        <div class="info-box-icon">🔒</div>
+        <h4>Código aberto</h4>
+        <p>Todo o código-fonte está disponível no GitHub para auditoria.</p>
+      </div>
+      <div class="info-box">
+        <div class="info-box-icon">⚡</div>
+        <h4>Rápido</h4>
+        <p>Execução direta no terminal, sem passos desnecessários.</p>
+      </div>
+      <div class="info-box">
+        <div class="info-box-icon">🔄</div>
+        <h4>Sempre atualizado</h4>
+        <p>O comando <code>irm</code> busca sempre a versão mais recente.</p>
+      </div>
+    </div>
+
+    <footer>
+      <p>Instalar-Padrao.ps1 · Hospedado no <a href="https://github.com/SEU-USER/SEU-REPO" target="_blank">GitHub</a></p>
+      <p style="margin-top: 6px; font-size: 0.75rem;">Lembre de substituir <code style="font-family:monospace; background: #1a1e28; padding: 2px 6px; border-radius: 4px;">SEU-USER/SEU-REPO</code> pelo seu usuário e repositório reais.</p>
+    </footer>
+
+  </div>
+
+  <script>
+    function copiarComando(btn) {
+      const url = 'https://raw.githubusercontent.com/SEU-USER/SEU-REPO/main/Instalar-Padrao.ps1';
+      const cmd = `irm ${url} | iex`;
+      navigator.clipboard.writeText(cmd).then(() => {
+        btn.textContent = 'copiado!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'copiar';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
