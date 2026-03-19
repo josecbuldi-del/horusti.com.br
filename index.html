@@ -1,10 +1,525 @@
-git add index.html
-git commit -m "Atualiza link de download para o .exe"
-git push
-```
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTi Soluções TI — Central de Ferramentas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-**3. Aguarde ~30 segundos** e o site vai atualizar automaticamente.
+    :root {
+      --bg:       #080b10;
+      --surface:  #0e1219;
+      --surface2: #141820;
+      --border:   #1e2530;
+      --border2:  #2a3445;
+      --accent:   #00c8ff;
+      --accent2:  #0066cc;
+      --gold:     #f0a500;
+      --green:    #00e587;
+      --text:     #d0dcea;
+      --muted:    #5a6a80;
+    }
 
-Depois disso o botão vai apontar para:
-```
-https://github.com/josecbuldi-del/horusti.com.br/releases/latest/download/Instalar-Padrao.exe
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 16px;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 2px,
+        rgba(0,200,255,0.012) 2px, rgba(0,200,255,0.012) 4px
+      );
+      pointer-events: none; z-index: 100;
+    }
+
+    body::after {
+      content: '';
+      position: fixed; top: -300px; left: 50%;
+      transform: translateX(-50%);
+      width: 900px; height: 600px;
+      background: radial-gradient(ellipse, rgba(0,100,200,0.07) 0%, transparent 65%);
+      pointer-events: none; z-index: 0;
+    }
+
+    .page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+      position: relative; z-index: 1;
+    }
+
+    /* TOP BAR */
+    .topbar {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 20px 0 16px;
+      border-bottom: 1px solid var(--border);
+      animation: fadeIn .5s ease both;
+    }
+
+    .logo { display: flex; align-items: center; gap: 10px; }
+
+    .logo-mark {
+      width: 36px; height: 36px;
+      border: 1.5px solid var(--accent);
+      display: grid; place-items: center; position: relative;
+    }
+
+    .logo-mark::before {
+      content: ''; position: absolute; inset: 3px;
+      background: var(--accent); opacity: 0.12;
+    }
+
+    .logo-mark span {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 13px; color: var(--accent);
+      font-weight: 700; position: relative; z-index: 1;
+    }
+
+    .logo-text {
+      font-size: 15px; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+    }
+
+    .logo-text small {
+      display: block; font-size: 10px; color: var(--muted);
+      letter-spacing: 0.15em; font-weight: 500; margin-top: 1px;
+    }
+
+    .topbar-tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px; color: var(--muted);
+      letter-spacing: 0.1em;
+      border: 1px solid var(--border2);
+      padding: 4px 10px;
+    }
+
+    /* HERO */
+    .hero { padding: 52px 0 40px; }
+
+    .hero-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px; color: var(--accent);
+      letter-spacing: 0.2em; text-transform: uppercase;
+      margin-bottom: 16px;
+      display: flex; align-items: center; gap: 10px;
+      animation: fadeIn .5s .1s ease both;
+    }
+
+    .hero-label::before {
+      content: ''; display: block;
+      width: 24px; height: 1px; background: var(--accent);
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700; line-height: 1.1;
+      text-transform: uppercase;
+      animation: slideUp .6s .15s ease both;
+    }
+
+    .hero h1 .acc { color: var(--accent); }
+    .hero h1 .dim { color: var(--muted); }
+
+    .hero-sub {
+      margin-top: 12px; font-size: 1rem;
+      color: var(--muted); font-weight: 500; line-height: 1.6;
+      animation: slideUp .6s .2s ease both;
+    }
+
+    /* STATS BAR */
+    .stats {
+      display: flex; gap: 0;
+      border: 1px solid var(--border);
+      margin: 32px 0 48px;
+      animation: slideUp .6s .25s ease both;
+    }
+
+    .stat {
+      flex: 1; padding: 16px 20px;
+      border-right: 1px solid var(--border);
+    }
+
+    .stat:last-child { border-right: none; }
+
+    .stat-val {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1.4rem; color: var(--accent);
+      font-weight: 700; letter-spacing: 0.05em;
+    }
+
+    .stat-label {
+      font-size: 0.75rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.12em;
+      font-weight: 600; margin-top: 2px;
+    }
+
+    /* SECTION TITLE */
+    .section-head {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .section-head h2 {
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted); white-space: nowrap;
+    }
+
+    .section-head::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    /* TOOLS GRID */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    /* TOOL CARD */
+    .tool-card {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      position: relative;
+      transition: border-color .2s, transform .2s;
+      animation: slideUp .6s ease both;
+    }
+
+    .tool-card:hover {
+      border-color: rgba(0,200,255,0.35);
+      transform: translateY(-2px);
+    }
+
+    .tool-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent2), var(--accent), transparent);
+    }
+
+    .tool-card.coming::before {
+      background: linear-gradient(90deg, #2a3445, #3a4560, transparent);
+    }
+
+    .card-header {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface2);
+    }
+
+    .card-header-left { display: flex; align-items: center; gap: 10px; }
+
+    .card-icon {
+      width: 32px; height: 32px;
+      border: 1px solid var(--border2);
+      background: rgba(0,200,255,0.06);
+      display: grid; place-items: center;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 8px; color: var(--accent);
+      letter-spacing: 0.04em; font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .card-icon.gray {
+      background: rgba(90,106,128,0.1);
+      color: var(--muted);
+    }
+
+    .card-name { font-size: 0.9rem; font-weight: 700; color: #fff; letter-spacing: 0.04em; }
+    .card-version {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px; color: var(--muted); letter-spacing: 0.08em;
+    }
+
+    .badge {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px; letter-spacing: 0.1em;
+      padding: 3px 8px;
+      display: flex; align-items: center; gap: 5px;
+    }
+
+    .badge.available {
+      color: var(--green);
+      border: 1px solid rgba(0,229,135,0.2);
+    }
+
+    .badge.available::before {
+      content: ''; width: 5px; height: 5px;
+      border-radius: 50%; background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+      animation: blink 2s ease infinite;
+    }
+
+    .badge.soon {
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    .card-body { padding: 16px; }
+
+    .card-desc {
+      font-size: 0.875rem; color: var(--muted);
+      line-height: 1.6; font-weight: 500;
+      margin-bottom: 14px;
+    }
+
+    .card-tags {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px; color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 3px 8px; letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .card-footer {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .card-meta {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px; color: var(--muted); letter-spacing: 0.08em;
+    }
+
+    .btn-dl {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent); color: #020810;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.85rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 9px 18px; text-decoration: none;
+      border: none; cursor: pointer;
+      position: relative; transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-dl:hover {
+      box-shadow: 0 6px 24px rgba(0,200,255,0.3);
+      transform: translateY(-1px);
+    }
+
+    .btn-dl svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+    .btn-disabled {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; color: var(--muted);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.85rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 9px 18px;
+      border: 1px solid var(--border);
+      cursor: not-allowed;
+      white-space: nowrap;
+    }
+
+    /* WARNING */
+    .warning {
+      display: flex; gap: 12px; align-items: flex-start;
+      padding: 12px 16px;
+      border: 1px solid rgba(240,165,0,0.2);
+      background: rgba(240,165,0,0.04);
+      margin-top: 10px;
+    }
+
+    .warning-icon {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px; color: var(--gold); flex-shrink: 0;
+    }
+
+    .warning p {
+      font-size: 0.8rem; color: #a89060;
+      line-height: 1.5; font-weight: 500;
+    }
+
+    .warning p strong { color: var(--gold); }
+
+    /* FOOTER */
+    footer {
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+      animation: slideUp .6s .5s ease both;
+    }
+
+    footer p {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px; color: var(--muted); letter-spacing: 0.08em;
+    }
+
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ANIMATIONS */
+    @keyframes fadeIn  { from{opacity:0;} to{opacity:1;} }
+    @keyframes slideUp { from{opacity:0;transform:translateY(16px);} to{opacity:1;transform:translateY(0);} }
+    @keyframes blink   { 0%,100%{opacity:1;} 50%{opacity:.3;} }
+
+    @media (max-width: 600px) {
+      .tools-grid { grid-template-columns: 1fr; }
+      .topbar-tag, .stats { display: none; }
+      .card-footer { flex-direction: column; align-items: flex-start; }
+      .btn-dl, .btn-disabled { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="logo">
+      <div class="logo-mark"><span>HTi</span></div>
+      <div class="logo-text">
+        HTi Soluções TI
+        <small>Central de Ferramentas</small>
+      </div>
+    </div>
+    <div class="topbar-tag">DISTRIBUIÇÃO INTERNA</div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-label">Portal de Downloads</div>
+    <h1>Central de <span class="acc">Ferramentas</span><br><span class="dim">HTi Soluções TI</span></h1>
+    <p class="hero-sub">Utilitários e instaladores para uso interno. Acesso restrito aos técnicos autorizados.</p>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-val">01</div>
+      <div class="stat-label">Ferramenta disponível</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">WIN</div>
+      <div class="stat-label">Plataforma</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">v1.0</div>
+      <div class="stat-label">Versão atual</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">ADM</div>
+      <div class="stat-label">Nível de acesso</div>
+    </div>
+  </div>
+
+  <!-- TOOLS -->
+  <div class="section-head"><h2>Ferramentas disponíveis</h2></div>
+
+  <div class="tools-grid">
+
+    <!-- ═══ CARD 1: Instalar-Padrao ═══ -->
+    <div class="tool-card">
+      <div class="card-header">
+        <div class="card-header-left">
+          <div class="card-icon">.EXE</div>
+          <div>
+            <div class="card-name">Instalar-Padrao</div>
+            <div class="card-version">v1.0 · 79.5 KB · PowerShell</div>
+          </div>
+        </div>
+        <div class="badge available">DISPONÍVEL</div>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">
+          Instalador padrão de softwares para Windows. Instala aplicativos via WinGet, otimiza o sistema e gerencia usuários locais. Requer autenticação.
+        </p>
+        <div class="card-tags">
+          <span class="tag">Windows 10/11</span>
+          <span class="tag">WinGet</span>
+          <span class="tag">Administrador</span>
+          <span class="tag">José Carlos</span>
+        </div>
+        <div class="card-footer">
+          <div class="card-meta">LOG · C:\Temp\Instalador-Padrao.log</div>
+          <a href="https://github.com/josecbuldi-del/horusti.com.br/releases/download/1.0/Instalar-Padrao.exe"
+             class="btn-dl">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Baixar .exe
+          </a>
+        </div>
+        <div class="warning" style="margin-top:14px;">
+          <div class="warning-icon">⚠</div>
+          <p><strong>Defender:</strong> clique em <strong>"Mais informações → Executar assim mesmo"</strong> se aparecer aviso de segurança.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ CARD 2: Em breve (exemplo) ═══ -->
+    <div class="tool-card coming">
+      <div class="card-header">
+        <div class="card-header-left">
+          <div class="card-icon gray">.EXE</div>
+          <div>
+            <div class="card-name" style="color:var(--muted);">Nova Ferramenta</div>
+            <div class="card-version">Em desenvolvimento</div>
+          </div>
+        </div>
+        <div class="badge soon">EM BREVE</div>
+      </div>
+      <div class="card-body">
+        <p class="card-desc" style="color:#3a4a60;">
+          Slot reservado para a próxima ferramenta. Adicione um novo card aqui quando tiver um novo utilitário pronto para distribuição.
+        </p>
+        <div class="card-tags">
+          <span class="tag" style="opacity:.4;">Windows</span>
+          <span class="tag" style="opacity:.4;">Em breve</span>
+        </div>
+        <div class="card-footer">
+          <div class="card-meta" style="color:#2a3a50;">—</div>
+          <div class="btn-disabled">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            Indisponível
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>HTi Soluções TI · Central de Ferramentas ·
+      <a href="https://github.com/josecbuldi-del/horusti.com.br" target="_blank">GitHub</a>
+    </p>
+    <p>Criado por José Carlos — Analista TI</p>
+  </footer>
+
+</div>
+</body>
+</html>
