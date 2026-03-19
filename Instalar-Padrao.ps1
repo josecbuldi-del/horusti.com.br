@@ -226,19 +226,10 @@ function Show-AppInstallMenu {
         Write-Header "INSTALAR APLICATIVOS PADRÕES"
         Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "1" -ForegroundColor $corNumero -NoNewline; Write-Host " - Instalar Google Chrome" -ForegroundColor $corTexto
-        Write-Host "      Navegador web rápido e estável do Google." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "2" -ForegroundColor $corNumero -NoNewline; Write-Host " - Instalar Adobe Acrobat Reader" -ForegroundColor $corTexto
-        Write-Host "      Leitor e visualizador de arquivos PDF." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "3" -ForegroundColor $corNumero -NoNewline; Write-Host " - Instalar WinRAR" -ForegroundColor $corTexto
-        Write-Host "      Compactador e descompactador de arquivos (RAR, ZIP e outros)." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "4" -ForegroundColor $corNumero -NoNewline; Write-Host " - Instalar 7-Zip" -ForegroundColor $corTexto
-        Write-Host "      Compactador gratuito e de alto desempenho." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "5" -ForegroundColor $corNumero -NoNewline; Write-Host " - Instalar TODOS os aplicativos acima" -ForegroundColor $corTexto
-        Write-Host "      Instala Chrome, Adobe, WinRAR e 7-Zip de uma vez." -ForegroundColor DarkGray
         Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "0" -ForegroundColor $corNumero -NoNewline; Write-Host " - Voltar ao menu principal" -ForegroundColor $corTexto
         Write-Host ""
@@ -279,59 +270,31 @@ function Show-OptimizationMenu {
         Write-Host ""
         Write-Host "  ── LIMPEZA E MANUTENÇÃO ──────────────────────" -ForegroundColor $corTitulo
         Write-Host "  " -NoNewline; Write-Host "A" -ForegroundColor $corNumero -NoNewline; Write-Host " - Limpeza de Disco (cleanmgr)" -ForegroundColor $corTexto
-        Write-Host "      Remove arquivos temporários, lixeira e cache do Windows." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "B" -ForegroundColor $corNumero -NoNewline; Write-Host " - Limpar pasta TEMP do usuário" -ForegroundColor $corTexto
-        Write-Host "      Apaga arquivos temporários da sessão do usuário atual." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "C" -ForegroundColor $corNumero -NoNewline; Write-Host " - Limpar cache DNS" -ForegroundColor $corTexto
-        Write-Host "      Resolve problemas de conexão limpando o cache de DNS." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "D" -ForegroundColor $corNumero -NoNewline; Write-Host " - Limpar cache da Windows Store" -ForegroundColor $corTexto
-        Write-Host "      Resolve falhas de download e atualização na Microsoft Store." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "E" -ForegroundColor $corNumero -NoNewline; Write-Host " - Limpar arquivos de prefetch" -ForegroundColor $corTexto
-        Write-Host "      Remove arquivos de pré-carregamento acumulados." -ForegroundColor DarkGray
         Write-Host ""
         Write-Host "  ── REPARO DO SISTEMA ─────────────────────────" -ForegroundColor $corTitulo
         Write-Host "  " -NoNewline; Write-Host "F" -ForegroundColor $corNumero -NoNewline; Write-Host " - Verificar arquivos do sistema (SFC /scannow)" -ForegroundColor $corTexto
-        Write-Host "      Verifica e repara arquivos corrompidos do Windows." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "G" -ForegroundColor $corNumero -NoNewline; Write-Host " - Reparar imagem do Windows (DISM)" -ForegroundColor $corTexto
-        Write-Host "      Repara a imagem do sistema operacional (CheckHealth, ScanHealth, RestoreHealth)." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "H" -ForegroundColor $corNumero -NoNewline; Write-Host " - Verificar e reparar disco (CHKDSK)" -ForegroundColor $corTexto
-        Write-Host "      Agenda verificação do disco para o próximo reinício." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "I" -ForegroundColor $corNumero -NoNewline; Write-Host " - Reiniciar Spooler de Impressão" -ForegroundColor $corTexto
-        Write-Host "      Resolve problemas de impressora travada ou fila presa." -ForegroundColor DarkGray
         Write-Host ""
         Write-Host "  ── DESEMPENHO ────────────────────────────────" -ForegroundColor $corTitulo
         Write-Host "  " -NoNewline; Write-Host "J" -ForegroundColor $corNumero -NoNewline; Write-Host " - Ajustar para Melhor Desempenho Visual" -ForegroundColor $corTexto
-        Write-Host "      Desativa efeitos visuais desnecessários para liberar recursos." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "K" -ForegroundColor $corNumero -NoNewline; Write-Host " - Desativar apps na inicialização do Windows" -ForegroundColor $corTexto
-        Write-Host "      Abre o Gerenciador de Tarefas na aba de Inicialização." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "L" -ForegroundColor $corNumero -NoNewline; Write-Host " - Definir Plano de Energia: Alto Desempenho" -ForegroundColor $corTexto
-        Write-Host "      Ativa o plano de energia máxima para melhor performance." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "M" -ForegroundColor $corNumero -NoNewline; Write-Host " - Liberar memória RAM (esvaziando cache)" -ForegroundColor $corTexto
-        Write-Host "      Força o Windows a liberar memória em cache não utilizada." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "N" -ForegroundColor $corNumero -NoNewline; Write-Host " - Desfragmentar / Otimizar Disco" -ForegroundColor $corTexto
-        Write-Host "      Otimiza HDs (desfragmenta) ou SSDs (TRIM) para melhor leitura/escrita." -ForegroundColor DarkGray
         Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "O" -ForegroundColor $corNumero -NoNewline; Write-Host " - Atualizar Windows Update" -ForegroundColor $corTexto
-        Write-Host "      Abre as configurações do Windows Update para verificar atualizações." -ForegroundColor DarkGray
         Write-Host ""
         Write-Host "  ── ATIVAÇÃO ──────────────────────────────────" -ForegroundColor $corTitulo
         Write-Host "  " -NoNewline; Write-Host "P" -ForegroundColor $corNumero -NoNewline; Write-Host " - Ativação Office / Windows (MAS)" -ForegroundColor $corTexto
-        Write-Host "      Executa o Microsoft Activation Scripts via get.activated.win." -ForegroundColor DarkGray
         Write-Host ""
         Write-Host "  ── BLOATWARE ─────────────────────────────────" -ForegroundColor $corTitulo
         Write-Host "  " -NoNewline; Write-Host "Q" -ForegroundColor $corNumero -NoNewline; Write-Host " - Remover Bloatware do Windows" -ForegroundColor $corTexto
-        Write-Host "      Remove apps desnecessários: Xbox, Seu Telefone, Candy Crush, etc." -ForegroundColor DarkGray
         Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "0" -ForegroundColor $corNumero -NoNewline; Write-Host " - Voltar ao menu principal" -ForegroundColor $corTexto
         Write-Host ""
@@ -633,46 +596,18 @@ function Show-BloatwareMenu {
         Write-Host "  Selecione o que deseja remover:" -ForegroundColor $corTexto
         Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "1" -ForegroundColor $corNumero -NoNewline; Write-Host " - Xbox (App, GameBar, GameOverlay, Identity)" -ForegroundColor $corTexto
-        Write-Host "      Remove todos os componentes do Xbox que vêm instalados." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "2" -ForegroundColor $corNumero -NoNewline; Write-Host " - Seu Telefone (Phone Link / Link to Windows)" -ForegroundColor $corTexto
-        Write-Host "      Remove o app de conexão com celular." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "3" -ForegroundColor $corNumero -NoNewline; Write-Host " - Cortana" -ForegroundColor $corTexto
-        Write-Host "      Remove o assistente virtual da Microsoft." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "4" -ForegroundColor $corNumero -NoNewline; Write-Host " - Notícias e Interesses (MSN News)" -ForegroundColor $corTexto
-        Write-Host "      Remove o feed de notícias do Windows." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "5" -ForegroundColor $corNumero -NoNewline; Write-Host " - Candy Crush e outros jogos patrocinados" -ForegroundColor $corTexto
-        Write-Host "      Remove jogos instalados automaticamente pela Microsoft." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "6" -ForegroundColor $corNumero -NoNewline; Write-Host " - Clima (MSN Weather)" -ForegroundColor $corTexto
-        Write-Host "      Remove o app de previsão do tempo." -ForegroundColor DarkGray
-        Write-Host ""
-        Write-Host "  " -NoNewline; Write-Host "7" -ForegroundColor $corNumero -NoNewline; Write-Host " - Fotos Microsoft (substituível por outro visualizador)" -ForegroundColor $corTexto
-        Write-Host "      Remove o app Fotos padrão do Windows." -ForegroundColor DarkGray
-        Write-Host ""
+        Write-Host "  " -NoNewline; Write-Host "7" -ForegroundColor $corNumero -NoNewline; Write-Host " - Fotos Microsoft" -ForegroundColor $corTexto
         Write-Host "  " -NoNewline; Write-Host "8" -ForegroundColor $corNumero -NoNewline; Write-Host " - Mapas do Windows" -ForegroundColor $corTexto
-        Write-Host "      Remove o app de mapas offline da Microsoft." -ForegroundColor DarkGray
-        Write-Host ""
-        Write-Host "  " -NoNewline; Write-Host "9" -ForegroundColor $corNumero -NoNewline; Write-Host " - OneDrive (desinstalar)" -ForegroundColor $corTexto
-        Write-Host "      Remove o cliente OneDrive do sistema." -ForegroundColor DarkGray
-        Write-Host ""
-        Write-Host "  " -NoNewline; Write-Host "10" -ForegroundColor $corNumero -NoNewline; Write-Host " - Teams (versão pessoal/consumer)" -ForegroundColor $corTexto
-        Write-Host "      Remove o Microsoft Teams pessoal (não o corporativo)." -ForegroundColor DarkGray
-        Write-Host ""
-        Write-Host "  " -NoNewline; Write-Host "11" -ForegroundColor $corNumero -NoNewline; Write-Host " - Skype" -ForegroundColor $corTexto
-        Write-Host "      Remove o cliente Skype." -ForegroundColor DarkGray
-        Write-Host ""
-        Write-Host "  " -NoNewline; Write-Host "12" -ForegroundColor $corNumero -NoNewline; Write-Host " - Paint 3D" -ForegroundColor $corTexto
-        Write-Host "      Remove o Paint 3D (diferente do Paint clássico)." -ForegroundColor DarkGray
-        Write-Host ""
-        Write-Host "  " -NoNewline; Write-Host "13" -ForegroundColor $corNumero -NoNewline; Write-Host " - Gravador de Voz" -ForegroundColor $corTexto
-        Write-Host "      Remove o app de gravação de áudio." -ForegroundColor DarkGray
+        Write-Host "  " -NoNewline; Write-Host "9" -ForegroundColor $corNumero -NoNewline; Write-Host " - Skype" -ForegroundColor $corTexto
+        Write-Host "  " -NoNewline; Write-Host "10" -ForegroundColor $corNumero -NoNewline; Write-Host " - Paint 3D" -ForegroundColor $corTexto
+        Write-Host "  " -NoNewline; Write-Host "11" -ForegroundColor $corNumero -NoNewline; Write-Host " - Gravador de Voz" -ForegroundColor $corTexto
         Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "T" -ForegroundColor $corNumero -NoNewline; Write-Host " - Remover TODOS os itens acima de uma vez" -ForegroundColor $corTexto
-        Write-Host "      Remove todos os bloatwares listados (recomendado para PCs novos)." -ForegroundColor DarkGray
         Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "0" -ForegroundColor $corNumero -NoNewline; Write-Host " - Voltar ao menu de Otimização" -ForegroundColor $corTexto
         Write-Host ""
@@ -693,7 +628,6 @@ function Show-BloatwareMenu {
             @{ Pkg = "Microsoft.BingWeather";            Nome = "MSN Clima" }
             @{ Pkg = "Microsoft.Windows.Photos";         Nome = "Fotos Microsoft" }
             @{ Pkg = "Microsoft.WindowsMaps";            Nome = "Mapas do Windows" }
-            @{ Pkg = "Microsoft.MicrosoftTeams";         Nome = "Teams (pessoal)" }
             @{ Pkg = "Microsoft.SkypeApp";               Nome = "Skype" }
             @{ Pkg = "Microsoft.MSPaint";                Nome = "Paint 3D" }
             @{ Pkg = "Microsoft.WindowsSoundRecorder";   Nome = "Gravador de Voz" }
@@ -745,39 +679,16 @@ function Show-BloatwareMenu {
                 Pause-Script
             }
             "9" {
-                Write-Header "Desinstalando OneDrive..."
-                Write-Host "  Encerrando processo OneDrive..." -ForegroundColor $corTexto
-                taskkill /f /im OneDrive.exe 2>$null
-                Start-Sleep -Seconds 1
-                $odPath32 = "$env:SystemRoot\System32\OneDriveSetup.exe"
-                $odPath64 = "$env:SystemRoot\SysWOW64\OneDriveSetup.exe"
-                if (Test-Path $odPath64) {
-                    Start-Process -FilePath $odPath64 -ArgumentList "/uninstall" -Wait
-                } elseif (Test-Path $odPath32) {
-                    Start-Process -FilePath $odPath32 -ArgumentList "/uninstall" -Wait
-                } else {
-                    Write-Host "  [AVISO] OneDriveSetup.exe não encontrado." -ForegroundColor $corAviso
-                }
-                Write-Host "  [OK] OneDrive desinstalado (pastas de arquivos mantidas)." -ForegroundColor $corOK
-                Write-Log "OneDrive desinstalado."
-                Pause-Script
-            }
-            "10" {
-                Write-Header "Removendo Teams (pessoal)..."
-                Remove-BloatApp -PackageName "Microsoft.MicrosoftTeams" -NomeExibicao "Teams (pessoal)"
-                Pause-Script
-            }
-            "11" {
                 Write-Header "Removendo Skype..."
                 Remove-BloatApp -PackageName "Microsoft.SkypeApp" -NomeExibicao "Skype"
                 Pause-Script
             }
-            "12" {
+            "10" {
                 Write-Header "Removendo Paint 3D..."
                 Remove-BloatApp -PackageName "Microsoft.MSPaint" -NomeExibicao "Paint 3D"
                 Pause-Script
             }
-            "13" {
+            "11" {
                 Write-Header "Removendo Gravador de Voz..."
                 Remove-BloatApp -PackageName "Microsoft.WindowsSoundRecorder" -NomeExibicao "Gravador de Voz"
                 Pause-Script
@@ -786,15 +697,6 @@ function Show-BloatwareMenu {
                 Write-Header "Removendo TODOS os Bloatwares..."
                 Write-Host "  Isso pode levar alguns minutos..." -ForegroundColor $corAviso
                 Write-Host ""
-                # OneDrive separado
-                Write-Host "  Encerrando OneDrive..." -ForegroundColor $corTexto
-                taskkill /f /im OneDrive.exe 2>$null
-                Start-Sleep -Seconds 1
-                $odPath64 = "$env:SystemRoot\SysWOW64\OneDriveSetup.exe"
-                $odPath32 = "$env:SystemRoot\System32\OneDriveSetup.exe"
-                if (Test-Path $odPath64) { Start-Process $odPath64 -ArgumentList "/uninstall" -Wait }
-                elseif (Test-Path $odPath32) { Start-Process $odPath32 -ArgumentList "/uninstall" -Wait }
-
                 foreach ($item in $bloatList) {
                     Remove-BloatApp -PackageName $item.Pkg -NomeExibicao $item.Nome
                 }
@@ -824,47 +726,26 @@ function Show-UserManagementMenu {
         Write-Host ""
         Write-Host "  ── CRIAR / REMOVER ───────────────────────────" -ForegroundColor $corTitulo
         Write-Host "  " -NoNewline; Write-Host "1" -ForegroundColor $corNumero -NoNewline; Write-Host " - Criar novo usuário local" -ForegroundColor $corTexto
-        Write-Host "      Cria um novo usuário local com senha em branco (definida no 1º acesso)." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "2" -ForegroundColor $corNumero -NoNewline; Write-Host " - Remover usuário local" -ForegroundColor $corTexto
-        Write-Host "      Remove uma conta local existente do sistema." -ForegroundColor DarkGray
         Write-Host ""
         Write-Host "  ── SENHAS ────────────────────────────────────" -ForegroundColor $corTitulo
         Write-Host "  " -NoNewline; Write-Host "3" -ForegroundColor $corNumero -NoNewline; Write-Host " - Trocar senha de um usuário" -ForegroundColor $corTexto
-        Write-Host "      Redefine a senha de qualquer conta local (requer admin)." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "4" -ForegroundColor $corNumero -NoNewline; Write-Host " - Forçar troca de senha no próximo logon" -ForegroundColor $corTexto
-        Write-Host "      O usuário será obrigado a definir nova senha na próxima entrada." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "5" -ForegroundColor $corNumero -NoNewline; Write-Host " - Remover senha de um usuário (deixar em branco)" -ForegroundColor $corTexto
-        Write-Host "      Define senha vazia para um usuário local." -ForegroundColor DarkGray
         Write-Host ""
         Write-Host "  ── GRUPOS E PERMISSÕES ───────────────────────" -ForegroundColor $corTitulo
         Write-Host "  " -NoNewline; Write-Host "6" -ForegroundColor $corNumero -NoNewline; Write-Host " - Adicionar usuário ao grupo Administradores" -ForegroundColor $corTexto
-        Write-Host "      Concede privilégios administrativos a um usuário local." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "7" -ForegroundColor $corNumero -NoNewline; Write-Host " - Remover usuário do grupo Administradores" -ForegroundColor $corTexto
-        Write-Host "      Rebaixa um administrador para usuário padrão." -ForegroundColor DarkGray
         Write-Host ""
         Write-Host "  ── CONTA ─────────────────────────────────────" -ForegroundColor $corTitulo
         Write-Host "  " -NoNewline; Write-Host "8" -ForegroundColor $corNumero -NoNewline; Write-Host " - Desativar conta de usuário" -ForegroundColor $corTexto
-        Write-Host "      Bloqueia o acesso de um usuário sem excluir a conta." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "9" -ForegroundColor $corNumero -NoNewline; Write-Host " - Reativar conta de usuário" -ForegroundColor $corTexto
-        Write-Host "      Reabilita uma conta que estava desativada." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "10" -ForegroundColor $corNumero -NoNewline; Write-Host " - Listar todos os usuários locais" -ForegroundColor $corTexto
-        Write-Host "      Exibe todos os usuários, status e grupos de cada um." -ForegroundColor DarkGray
         Write-Host ""
         Write-Host "  ── FERRAMENTAS AVANÇADAS ─────────────────────" -ForegroundColor $corTitulo
         Write-Host "  " -NoNewline; Write-Host "11" -ForegroundColor $corNumero -NoNewline; Write-Host " - Abrir Painel de Controle de Usuários (netplwiz)" -ForegroundColor $corTexto
-        Write-Host "      Abre o gerenciador gráfico de contas e login automático do Windows." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "12" -ForegroundColor $corNumero -NoNewline; Write-Host " - Abrir Gerenciamento do Computador (lusrmgr)" -ForegroundColor $corTexto
-        Write-Host "      Acesso avançado a usuários, grupos, serviços e mais." -ForegroundColor DarkGray
-        Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "13" -ForegroundColor $corNumero -NoNewline; Write-Host " - Abrir Configurações de Contas (ms-settings)" -ForegroundColor $corTexto
-        Write-Host "      Abre as configurações de contas no painel do Windows 10/11." -ForegroundColor DarkGray
         Write-Host ""
         Write-Host "  " -NoNewline; Write-Host "0" -ForegroundColor $corNumero -NoNewline; Write-Host " - Voltar ao menu principal" -ForegroundColor $corTexto
         Write-Host ""
@@ -1095,7 +976,6 @@ function Show-UserManagementMenu {
             "11" {
                 Write-Header "PAINEL DE CONTROLE DE USUÁRIOS (netplwiz)"
                 Write-Host "  Abrindo netplwiz..." -ForegroundColor $corTexto
-                Write-Host "  Permite gerenciar contas, login automático e requisição de senha." -ForegroundColor DarkGray
                 Start-Process "netplwiz"
                 Write-Log "netplwiz aberto."
                 Pause-Script
@@ -1105,7 +985,6 @@ function Show-UserManagementMenu {
             "12" {
                 Write-Header "GERENCIAMENTO DO COMPUTADOR (lusrmgr)"
                 Write-Host "  Abrindo gerenciador avançado de usuários e grupos..." -ForegroundColor $corTexto
-                Write-Host "  Acesso completo a usuários, grupos, serviços e configurações." -ForegroundColor DarkGray
                 try {
                     Start-Process "lusrmgr.msc"
                     Write-Log "lusrmgr.msc aberto."
@@ -1121,7 +1000,6 @@ function Show-UserManagementMenu {
             "13" {
                 Write-Header "CONFIGURAÇÕES DE CONTAS (Windows Settings)"
                 Write-Host "  Abrindo painel de contas do Windows 10/11..." -ForegroundColor $corTexto
-                Write-Host "  Gerencie e-mail, sincronização, família e opções de logon." -ForegroundColor DarkGray
                 Start-Process "ms-settings:accounts"
                 Write-Log "ms-settings:accounts aberto."
                 Pause-Script
@@ -1150,13 +1028,8 @@ function Show-Menu {
     Write-Host "  ── MENU PRINCIPAL ───────────────────────────" -ForegroundColor $corTitulo
     Write-Host ""
     Write-Host "  " -NoNewline; Write-Host "1" -ForegroundColor $corNumero -NoNewline; Write-Host " - Instalar Aplicativos Padrões" -ForegroundColor $corTexto
-    Write-Host "      Chrome, Adobe, WinRAR, 7-Zip e mais." -ForegroundColor DarkGray
-    Write-Host ""
     Write-Host "  " -NoNewline; Write-Host "2" -ForegroundColor $corNumero -NoNewline; Write-Host " - Otimização do Sistema" -ForegroundColor $corTexto
-    Write-Host "      Limpeza, reparo, desempenho, bloatware e ativação." -ForegroundColor DarkGray
-    Write-Host ""
     Write-Host "  " -NoNewline; Write-Host "3" -ForegroundColor $corNumero -NoNewline; Write-Host " - Gerenciar Usuários" -ForegroundColor $corTexto
-    Write-Host "      Criar, remover, senhas, grupos e ferramentas de conta." -ForegroundColor DarkGray
     Write-Host ""
     Write-Host "  ── SAIR ──────────────────────────────────────" -ForegroundColor $corTitulo
     Write-Host "  " -NoNewline; Write-Host "0" -ForegroundColor $corNumero -NoNewline; Write-Host " - Sair" -ForegroundColor $corTexto
