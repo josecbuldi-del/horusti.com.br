@@ -3,22 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Instalar-Padrao — Instalador PowerShell</title>
+  <title>HTi Soluções TI — Instalar-Padrao</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0d0f14;
-      --surface: #13161e;
-      --surface2: #1a1e28;
-      --border: #252a38;
-      --accent: #00e5a0;
-      --accent2: #0099ff;
-      --text: #e8ecf5;
-      --muted: #6b7594;
-      --code-bg: #0a0c11;
+      --bg:        #080b10;
+      --surface:   #0e1219;
+      --surface2:  #141820;
+      --border:    #1e2530;
+      --border2:   #2a3445;
+      --accent:    #00c8ff;
+      --accent2:   #0066cc;
+      --gold:      #f0a500;
+      --text:      #d0dcea;
+      --muted:     #5a6a80;
     }
 
     html { scroll-behavior: smooth; }
@@ -26,275 +27,279 @@
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'Syne', sans-serif;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 16px;
       min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* Grid background */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
-      background-image:
-        linear-gradient(var(--border) 1px, transparent 1px),
-        linear-gradient(90deg, var(--border) 1px, transparent 1px);
-      background-size: 40px 40px;
-      opacity: 0.35;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 2px,
+        rgba(0,200,255,0.012) 2px, rgba(0,200,255,0.012) 4px
+      );
       pointer-events: none;
-      z-index: 0;
+      z-index: 100;
     }
 
-    /* Glow blob */
     body::after {
       content: '';
       position: fixed;
-      top: -200px;
-      left: 50%;
+      top: -300px; left: 50%;
       transform: translateX(-50%);
-      width: 700px;
-      height: 500px;
-      background: radial-gradient(ellipse, rgba(0,229,160,0.08) 0%, transparent 70%);
+      width: 900px; height: 600px;
+      background: radial-gradient(ellipse, rgba(0,100,200,0.07) 0%, transparent 65%);
       pointer-events: none;
       z-index: 0;
     }
 
-    .container {
-      max-width: 760px;
+    .page {
+      max-width: 820px;
       margin: 0 auto;
-      padding: 0 24px;
+      padding: 0 24px 80px;
       position: relative;
       z-index: 1;
     }
 
-    /* Header */
-    header {
-      padding: 56px 0 48px;
-      text-align: center;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(0,229,160,0.08);
-      border: 1px solid rgba(0,229,160,0.25);
-      color: var(--accent);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 6px 14px;
-      border-radius: 999px;
-      margin-bottom: 28px;
-      animation: fadeDown 0.6s ease both;
-    }
-
-    .badge::before {
-      content: '';
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 8px var(--accent);
-      animation: pulse 2s ease infinite;
-    }
-
-    h1 {
-      font-size: clamp(2.4rem, 6vw, 3.8rem);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
-      animation: fadeDown 0.6s 0.1s ease both;
-    }
-
-    h1 span {
-      color: var(--accent);
-    }
-
-    .subtitle {
-      margin-top: 16px;
-      color: var(--muted);
-      font-size: 1.05rem;
-      font-weight: 400;
-      line-height: 1.6;
-      animation: fadeDown 0.6s 0.2s ease both;
-    }
-
-    /* Install card */
-    .install-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
-      margin: 40px 0;
-      animation: fadeUp 0.7s 0.3s ease both;
-    }
-
-    .install-card-header {
+    /* TOP BAR */
+    .topbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 14px 20px;
-      background: var(--surface2);
+      padding: 20px 0 16px;
       border-bottom: 1px solid var(--border);
+      animation: fadeIn .5s ease both;
     }
 
-    .dots {
-      display: flex;
-      gap: 6px;
-    }
+    .logo { display: flex; align-items: center; gap: 10px; }
 
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-    }
-    .dot:nth-child(1) { background: #ff5f57; }
-    .dot:nth-child(2) { background: #febc2e; }
-    .dot:nth-child(3) { background: #28c840; }
-
-    .terminal-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 0.05em;
-    }
-
-    .install-body {
-      padding: 24px 20px;
-      background: var(--code-bg);
+    .logo-mark {
+      width: 34px; height: 34px;
+      border: 1.5px solid var(--accent);
+      display: grid; place-items: center;
       position: relative;
     }
 
-    .install-body pre {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.9rem;
-      color: var(--text);
-      line-height: 1.8;
-      overflow-x: auto;
-      white-space: pre-wrap;
-      word-break: break-all;
-    }
-
-    .install-body pre .prompt {
-      color: var(--accent);
-      user-select: none;
-    }
-
-    .install-body pre .cmd {
-      color: #79b8ff;
-    }
-
-    .install-body pre .url {
-      color: var(--accent);
-    }
-
-    .copy-btn {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      color: var(--muted);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      padding: 6px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s;
-      letter-spacing: 0.05em;
-    }
-
-    .copy-btn:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    .copy-btn.copied {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    /* Download button */
-    .btn-group {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin: 32px 0;
-      animation: fadeUp 0.7s 0.4s ease both;
-    }
-
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
+    .logo-mark::before {
+      content: '';
+      position: absolute; inset: 3px;
       background: var(--accent);
-      color: #060a0f;
-      font-family: 'Syne', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 700;
-      padding: 14px 28px;
-      border-radius: 10px;
-      text-decoration: none;
-      transition: all 0.2s;
-      letter-spacing: 0.01em;
+      opacity: 0.12;
     }
 
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(0,229,160,0.3);
+    .logo-mark span {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 13px; color: var(--accent);
+      font-weight: 700; position: relative; z-index: 1;
     }
 
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: transparent;
-      color: var(--text);
-      font-family: 'Syne', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 600;
-      padding: 14px 28px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      text-decoration: none;
-      transition: all 0.2s;
+    .logo-text {
+      font-size: 15px; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--text);
     }
 
-    .btn-secondary:hover {
-      border-color: var(--accent2);
-      color: var(--accent2);
-      transform: translateY(-2px);
+    .logo-text small {
+      display: block; font-size: 10px; color: var(--muted);
+      letter-spacing: 0.15em; font-weight: 500; margin-top: 1px;
     }
 
-    /* Steps */
-    .steps-section {
-      margin: 48px 0;
-      animation: fadeUp 0.7s 0.5s ease both;
+    .topbar-tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px; color: var(--muted);
+      letter-spacing: 0.1em;
+      border: 1px solid var(--border2);
+      padding: 4px 10px;
     }
 
-    .section-title {
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
+    /* HERO */
+    .hero { padding: 64px 0 48px; }
+
+    .hero-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px; color: var(--accent);
+      letter-spacing: 0.2em; text-transform: uppercase;
       margin-bottom: 20px;
+      display: flex; align-items: center; gap: 10px;
+      animation: fadeIn .5s .1s ease both;
     }
 
-    .steps {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
+    .hero-label::before {
+      content: ''; display: block;
+      width: 24px; height: 1px; background: var(--accent);
     }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      font-weight: 700; line-height: 1;
+      letter-spacing: -0.01em; text-transform: uppercase;
+      animation: slideUp .6s .15s ease both;
+    }
+
+    .hero h1 .dim    { color: var(--muted); }
+    .hero h1 .bright { color: #fff; }
+    .hero h1 .acc    { color: var(--accent); }
+
+    .hero-sub {
+      margin-top: 20px; font-size: 1.1rem;
+      color: var(--muted); font-weight: 500;
+      line-height: 1.6; max-width: 520px;
+      animation: slideUp .6s .2s ease both;
+    }
+
+    /* DOWNLOAD CARD */
+    .dl-card {
+      margin: 40px 0;
+      border: 1px solid var(--border2);
+      background: var(--surface);
+      position: relative;
+      animation: slideUp .6s .25s ease both;
+    }
+
+    .dl-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent2), var(--accent), transparent);
+    }
+
+    .dl-card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface2);
+    }
+
+    .dl-card-header-left { display: flex; align-items: center; gap: 12px; }
+
+    .file-icon {
+      width: 36px; height: 36px;
+      border: 1px solid var(--border2);
+      background: rgba(0,200,255,0.06);
+      display: grid; place-items: center;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px; color: var(--accent);
+      letter-spacing: 0.05em; font-weight: 700;
+    }
+
+    .file-info h3 {
+      font-size: 1rem; font-weight: 700;
+      color: #fff; letter-spacing: 0.05em;
+    }
+
+    .file-info span {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px; color: var(--muted); letter-spacing: 0.08em;
+    }
+
+    .status-pill {
+      display: flex; align-items: center; gap: 6px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px; color: #00ff88;
+      letter-spacing: 0.1em;
+      border: 1px solid rgba(0,255,136,0.2);
+      padding: 4px 10px;
+    }
+
+    .status-pill::before {
+      content: ''; width: 5px; height: 5px;
+      border-radius: 50%; background: #00ff88;
+      box-shadow: 0 0 6px #00ff88;
+      animation: blink 2s ease infinite;
+    }
+
+    .dl-card-body {
+      padding: 28px 24px;
+      display: flex; align-items: center;
+      justify-content: space-between;
+      gap: 24px; flex-wrap: wrap;
+    }
+
+    .dl-meta { display: flex; flex-direction: column; gap: 12px; }
+    .dl-meta-row { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+
+    .meta-item { display: flex; flex-direction: column; gap: 2px; }
+
+    .meta-item label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px; color: var(--muted);
+      letter-spacing: 0.15em; text-transform: uppercase;
+    }
+
+    .meta-item value {
+      font-size: 0.95rem; font-weight: 600;
+      color: var(--text); letter-spacing: 0.04em;
+    }
+
+    .btn-download {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: var(--accent); color: #020810;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 14px 28px;
+      text-decoration: none; border: none; cursor: pointer;
+      position: relative; transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-download::before {
+      content: ''; position: absolute; inset: 0;
+      background: #fff; opacity: 0; transition: opacity 0.2s;
+    }
+
+    .btn-download:hover::before { opacity: 0.1; }
+    .btn-download:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,200,255,0.35); }
+    .btn-download:active { transform: translateY(0); }
+
+    .btn-download svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+    /* WARNING */
+    .warning {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 14px 18px;
+      border: 1px solid rgba(240,165,0,0.25);
+      background: rgba(240,165,0,0.04);
+      margin-bottom: 40px;
+      animation: slideUp .6s .3s ease both;
+    }
+
+    .warning-icon {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 13px; color: var(--gold);
+      flex-shrink: 0; margin-top: 1px;
+    }
+
+    .warning p {
+      font-size: 0.875rem; color: #a89060;
+      line-height: 1.6; font-weight: 500;
+    }
+
+    .warning p strong { color: var(--gold); font-weight: 700; }
+
+    /* STEPS */
+    .section-head {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 20px;
+      animation: slideUp .6s .35s ease both;
+    }
+
+    .section-head h2 {
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted); white-space: nowrap;
+    }
+
+    .section-head::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    .steps { display: flex; flex-direction: column; animation: slideUp .6s .4s ease both; }
 
     .step {
-      display: flex;
-      gap: 20px;
-      align-items: flex-start;
+      display: flex; gap: 20px;
       padding: 20px 0;
       border-bottom: 1px solid var(--border);
     }
@@ -302,218 +307,253 @@
     .step:last-child { border-bottom: none; }
 
     .step-num {
-      flex-shrink: 0;
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      background: rgba(0,229,160,0.1);
-      border: 1px solid rgba(0,229,160,0.25);
-      color: var(--accent);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      flex-shrink: 0; width: 28px; height: 28px;
+      border: 1px solid var(--border2);
+      display: grid; place-items: center;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px; color: var(--accent);
+      background: rgba(0,200,255,0.05);
+      margin-top: 2px;
     }
 
-    .step-content h3 {
-      font-size: 0.95rem;
-      font-weight: 600;
-      margin-bottom: 4px;
+    .step-body h3 {
+      font-size: 1rem; font-weight: 700;
+      color: #fff; letter-spacing: 0.04em; margin-bottom: 4px;
     }
 
-    .step-content p {
-      font-size: 0.875rem;
-      color: var(--muted);
-      line-height: 1.6;
+    .step-body p {
+      font-size: 0.875rem; color: var(--muted);
+      line-height: 1.6; font-weight: 500;
     }
 
-    .step-content code {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.82rem;
+    .step-body code {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.8rem;
       background: var(--surface2);
-      border: 1px solid var(--border);
-      color: var(--accent);
-      padding: 2px 7px;
-      border-radius: 4px;
+      border: 1px solid var(--border2);
+      color: var(--accent); padding: 2px 7px;
     }
 
-    /* Info boxes */
-    .info-grid {
+    /* FEATURES */
+    .features {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 12px;
-      margin: 48px 0;
-      animation: fadeUp 0.7s 0.55s ease both;
-    }
-
-    .info-box {
-      background: var(--surface);
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1px; background: var(--border);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px;
+      margin-top: 40px;
+      animation: slideUp .6s .45s ease both;
     }
 
-    .info-box-icon {
-      font-size: 20px;
-      margin-bottom: 10px;
+    .feature {
+      background: var(--surface);
+      padding: 20px; transition: background .2s;
     }
 
-    .info-box h4 {
-      font-size: 0.875rem;
-      font-weight: 600;
-      margin-bottom: 4px;
+    .feature:hover { background: var(--surface2); }
+
+    .feature-tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px; color: var(--accent);
+      letter-spacing: 0.15em; text-transform: uppercase;
+      margin-bottom: 8px;
     }
 
-    .info-box p {
-      font-size: 0.8rem;
-      color: var(--muted);
-      line-height: 1.5;
+    .feature h4 {
+      font-size: 0.95rem; font-weight: 700;
+      color: #fff; margin-bottom: 4px; letter-spacing: 0.03em;
     }
 
-    /* Footer */
+    .feature p {
+      font-size: 0.8rem; color: var(--muted);
+      line-height: 1.5; font-weight: 500;
+    }
+
+    /* FOOTER */
     footer {
-      text-align: center;
-      padding: 40px 0 56px;
-      color: var(--muted);
-      font-size: 0.8rem;
+      margin-top: 60px; padding-top: 20px;
       border-top: 1px solid var(--border);
-      animation: fadeUp 0.7s 0.6s ease both;
+      display: flex; align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+      animation: slideUp .6s .5s ease both;
     }
 
-    footer a {
-      color: var(--accent);
-      text-decoration: none;
+    footer p {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px; color: var(--muted); letter-spacing: 0.08em;
     }
 
+    footer a { color: var(--accent); text-decoration: none; }
     footer a:hover { text-decoration: underline; }
 
-    /* Animations */
-    @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-16px); }
-      to   { opacity: 1; transform: translateY(0); }
+    .footer-note {
+      font-size: 10px; color: #2a3445;
+      font-family: 'Share Tech Mono', monospace; letter-spacing: 0.06em;
     }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+    /* ANIMATIONS */
+    @keyframes fadeIn  { from{opacity:0;} to{opacity:1;} }
+    @keyframes slideUp { from{opacity:0;transform:translateY(18px);} to{opacity:1;transform:translateY(0);} }
+    @keyframes blink   { 0%,100%{opacity:1;} 50%{opacity:.3;} }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
-
-    @media (max-width: 480px) {
-      .btn-group { flex-direction: column; align-items: stretch; }
-      .btn-primary, .btn-secondary { justify-content: center; }
+    @media (max-width: 560px) {
+      .dl-card-body { flex-direction: column; align-items: flex-start; }
+      .btn-download { width: 100%; justify-content: center; }
+      .topbar-tag { display: none; }
+      .hero h1 { font-size: 2.6rem; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
+<div class="page">
 
-    <header>
-      <div class="badge">PowerShell · Windows</div>
-      <h1>Instalar<span>-Padrao</span></h1>
-      <p class="subtitle">Instalador padrão para Windows via PowerShell.<br>Execute com um único comando, sem complicações.</p>
-    </header>
-
-    <!-- Comando de instalação rápida -->
-    <div class="install-card">
-      <div class="install-card-header">
-        <div class="dots">
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-        </div>
-        <span class="terminal-label">PowerShell — Instalação rápida</span>
-        <span></span>
-      </div>
-      <div class="install-body">
-        <pre><span class="prompt">PS&gt; </span><span class="cmd">irm</span> <span class="url">https://raw.githubusercontent.com/SEU-USER/SEU-REPO/main/Instalar-Padrao.ps1</span> <span class="cmd">| iex</span></pre>
-        <button class="copy-btn" onclick="copiarComando(this)">copiar</button>
+  <div class="topbar">
+    <div class="logo">
+      <div class="logo-mark"><span>HTi</span></div>
+      <div class="logo-text">
+        HTi Soluções TI
+        <small>Ferramentas Internas</small>
       </div>
     </div>
-
-    <!-- Botões de download -->
-    <div class="btn-group">
-      <a href="Instalar-Padrao.ps1" download class="btn-primary">
-        ↓ Baixar Instalar-Padrao.ps1
-      </a>
-      <a href="https://github.com/SEU-USER/SEU-REPO" target="_blank" class="btn-secondary">
-        ↗ Ver no GitHub
-      </a>
-    </div>
-
-    <!-- Passo a passo -->
-    <div class="steps-section">
-      <div class="section-title">Como usar</div>
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">01</div>
-          <div class="step-content">
-            <h3>Abra o PowerShell como Administrador</h3>
-            <p>Clique com o botão direito no menu Iniciar e escolha <code>Windows PowerShell (Admin)</code> ou <code>Terminal (Admin)</code>.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">02</div>
-          <div class="step-content">
-            <h3>Cole e execute o comando</h3>
-            <p>Copie o comando acima, cole no terminal e pressione <code>Enter</code>. O script será baixado e executado automaticamente.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">03</div>
-          <div class="step-content">
-            <h3>Siga as instruções na tela</h3>
-            <p>O instalador irá guiar você pelo processo. Confirme as permissões quando solicitado.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Info boxes -->
-    <div class="info-grid">
-      <div class="info-box">
-        <div class="info-box-icon">🔒</div>
-        <h4>Código aberto</h4>
-        <p>Todo o código-fonte está disponível no GitHub para auditoria.</p>
-      </div>
-      <div class="info-box">
-        <div class="info-box-icon">⚡</div>
-        <h4>Rápido</h4>
-        <p>Execução direta no terminal, sem passos desnecessários.</p>
-      </div>
-      <div class="info-box">
-        <div class="info-box-icon">🔄</div>
-        <h4>Sempre atualizado</h4>
-        <p>O comando <code>irm</code> busca sempre a versão mais recente.</p>
-      </div>
-    </div>
-
-    <footer>
-      <p>Instalar-Padrao.ps1 · Hospedado no <a href="https://github.com/SEU-USER/SEU-REPO" target="_blank">GitHub</a></p>
-      <p style="margin-top: 6px; font-size: 0.75rem;">Lembre de substituir <code style="font-family:monospace; background: #1a1e28; padding: 2px 6px; border-radius: 4px;">SEU-USER/SEU-REPO</code> pelo seu usuário e repositório reais.</p>
-    </footer>
-
+    <div class="topbar-tag">DISTRIBUIÇÃO INTERNA</div>
   </div>
 
-  <script>
-    function copiarComando(btn) {
-      const url = 'https://raw.githubusercontent.com/SEU-USER/SEU-REPO/main/Instalar-Padrao.ps1';
-      const cmd = `irm ${url} | iex`;
-      navigator.clipboard.writeText(cmd).then(() => {
-        btn.textContent = 'copiado!';
-        btn.classList.add('copied');
-        setTimeout(() => {
-          btn.textContent = 'copiar';
-          btn.classList.remove('copied');
-        }, 2000);
-      });
-    }
-  </script>
+  <div class="hero">
+    <div class="hero-label">Utilitário Windows · PowerShell</div>
+    <h1>
+      <span class="dim">Instalar</span><span class="acc">—</span><br>
+      <span class="bright">Padrão</span><span class="acc">.exe</span>
+    </h1>
+    <p class="hero-sub">
+      Instalador padrão de softwares e utilitários para Windows.
+      Criado por José Carlos — Analista TI HTi.
+    </p>
+  </div>
+
+  <div class="dl-card">
+    <div class="dl-card-header">
+      <div class="dl-card-header-left">
+        <div class="file-icon">.EXE</div>
+        <div class="file-info">
+          <h3>Instalar-Padrao.exe</h3>
+          <span>WINDOWS 10 / 11 · x64 · REQUER ADMINISTRADOR</span>
+        </div>
+      </div>
+      <div class="status-pill">DISPONÍVEL</div>
+    </div>
+
+    <div class="dl-card-body">
+      <div class="dl-meta">
+        <div class="dl-meta-row">
+          <div class="meta-item">
+            <label>Plataforma</label>
+            <value>Windows 10 / 11</value>
+          </div>
+          <div class="meta-item">
+            <label>Tipo</label>
+            <value>Executável (.exe)</value>
+          </div>
+          <div class="meta-item">
+            <label>Privilégios</label>
+            <value>Administrador</value>
+          </div>
+        </div>
+        <div class="dl-meta-row">
+          <div class="meta-item">
+            <label>Dependência</label>
+            <value>WinGet instalado</value>
+          </div>
+          <div class="meta-item">
+            <label>Log salvo em</label>
+            <value>C:\Temp\Instalador-Padrao.log</value>
+          </div>
+        </div>
+      </div>
+
+      <a href="https://github.com/SEU-USER/SEU-REPO/releases/latest/download/Instalar-Padrao.exe"
+         class="btn-download">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Baixar Agora
+      </a>
+    </div>
+  </div>
+
+  <div class="warning">
+    <div class="warning-icon">⚠</div>
+    <p>
+      <strong>Windows Defender:</strong> ao executar pela primeira vez o Windows pode exibir um aviso de segurança.
+      Clique em <strong>"Mais informações" → "Executar assim mesmo"</strong> para prosseguir.
+      Isso ocorre pois o executável não possui assinatura digital.
+    </p>
+  </div>
+
+  <div class="section-head"><h2>Como usar</h2></div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-body">
+        <h3>Baixe o executável</h3>
+        <p>Clique no botão acima para baixar o arquivo <code>Instalar-Padrao.exe</code> para o seu computador.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-body">
+        <h3>Execute como Administrador</h3>
+        <p>Clique com o botão direito no arquivo e selecione <code>Executar como administrador</code>. O programa já solicita elevação automaticamente ao abrir.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-body">
+        <h3>Informe a senha de acesso</h3>
+        <p>O instalador solicita autenticação antes de liberar os menus. Entre em contato com o analista de TI responsável para obter a senha.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-body">
+        <h3>Navegue pelos menus</h3>
+        <p>Use as opções numeradas para instalar aplicativos, otimizar o sistema ou gerenciar usuários. O log é gerado automaticamente em <code>C:\Temp\Instalador-Padrao.log</code>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="features">
+    <div class="feature">
+      <div class="feature-tag">Módulo 01</div>
+      <h4>Instalar Apps</h4>
+      <p>Chrome, Adobe Reader, WinRAR e 7-Zip via WinGet silencioso.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-tag">Módulo 02</div>
+      <h4>Otimização</h4>
+      <p>Limpeza, SFC, DISM, Prefetch, DNS, RAM, desfrag e muito mais.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-tag">Módulo 03</div>
+      <h4>Usuários</h4>
+      <p>Criar, remover, trocar senhas e gerenciar grupos locais.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-tag">Segurança</div>
+      <h4>Acesso Restrito</h4>
+      <p>Autenticação por hash SHA-256. Histórico apagado ao sair.</p>
+    </div>
+  </div>
+
+  <footer>
+    <p>HTi Soluções TI · Instalar-Padrao ·
+      <a href="https://github.com/SEU-USER/SEU-REPO" target="_blank">github.com/SEU-USER/SEU-REPO</a>
+    </p>
+    <p class="footer-note">Substitua SEU-USER/SEU-REPO pelo seu repositório real</p>
+  </footer>
+
+</div>
 </body>
 </html>
